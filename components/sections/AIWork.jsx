@@ -51,13 +51,10 @@ function AIWorkCard({ item, index }) {
       transition={{ duration: 0.6, delay: index * 0.12, ease: [0.21, 0.47, 0.32, 0.98] }}
       className="group relative glass-card rounded-2xl p-7 hover-glow overflow-hidden transition-all duration-300 hover:-translate-y-1"
     >
-      {/* Background glow */}
       <div
         className="absolute -top-20 -right-20 h-40 w-40 rounded-full blur-[60px] opacity-0 group-hover:opacity-20 transition-opacity duration-500"
         style={{ background: item.accent }}
       />
-
-      {/* Icon */}
       <div className="mb-5 flex items-center gap-4">
         <div
           className="flex h-14 w-14 items-center justify-center rounded-xl text-2xl relative"
