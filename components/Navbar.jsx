@@ -7,8 +7,8 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Icosahedron, Torus } from "@react-three/drei";
 import { Moon, Sun, Menu, X, Download } from "lucide-react";
 import { navLinks } from "@/lib/data";
+// import resume from "../../assets/syamprasadreddy.pdf";
 
-/* ─── 3D decoration for the header ─── */
 function Header3D() {
   const icoRef = useRef();
 
@@ -29,24 +29,39 @@ function Header3D() {
         <group ref={icoRef}>
           <Icosahedron args={[0.85, 0]}>
             <meshStandardMaterial
-              color="#8b5cf6"
+              color="#60a5fa"
               wireframe
               transparent
-              opacity={0.55}
+              opacity={0.8}
+              roughness={0.2}
+              metalness={0}
+              emissive="#3b82f6"
+              emissiveIntensity={0.5}
+            />
+          </Icosahedron>
+          <Icosahedron args={[0.7, 0]}>
+            <meshStandardMaterial
+              color="#3b82f6"
+              transparent
+              opacity={0.2}
               roughness={0.1}
-              metalness={0.9}
+              metalness={0}
+              emissive="#3b82f6"
+              emissiveIntensity={0.8}
             />
           </Icosahedron>
         </group>
       </Float>
 
-      <Torus args={[1.5, 0.008, 2, 72]} rotation={[Math.PI / 2.3, 0.4, 0]}>
+      <Torus args={[1.5, 0.01, 2, 72]} rotation={[Math.PI / 2.3, 0.4, 0]}>
         <meshStandardMaterial
-          color="#22d3ee"
+          color="#38bdf8"
           transparent
-          opacity={0.4}
-          metalness={1}
-          roughness={0}
+          opacity={0.6}
+          roughness={0.2}
+          metalness={0}
+          emissive="#0ea5e9"
+          emissiveIntensity={0.35}
         />
       </Torus>
     </>
@@ -54,11 +69,11 @@ function Header3D() {
 }
 
 export default function Navbar() {
-  const [scrolled, setScrolled]       = useState(false);
-  const [activeSection, setActive]    = useState("");
-  const [mobileOpen, setMobileOpen]   = useState(false);
-  const [mounted, setMounted]         = useState(false);
-  const { theme, setTheme }           = useTheme();
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActive] = useState("");
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     setMounted(true);
@@ -89,7 +104,6 @@ export default function Navbar() {
         transition={{ duration: 0.6, delay: 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
         className="fixed left-0 right-0 top-0 z-50"
       >
-        {/* Top gradient accent line */}
         <div
           className="pointer-events-none absolute inset-x-0 top-0 h-[2px] transition-opacity duration-300"
           style={{ opacity: scrolled ? 1 : 0 }}
@@ -97,7 +111,6 @@ export default function Navbar() {
           <div className="h-full w-full animated-border" />
         </div>
 
-        {/* Floating pill */}
         <div className="mx-auto max-w-7xl px-3 sm:px-6">
           <div
             className="relative mt-3 flex items-center justify-between rounded-2xl px-3 py-2 transition-colors duration-300 sm:px-5"
@@ -114,7 +127,6 @@ export default function Navbar() {
               style={{ background: "var(--nav-bg)", opacity: scrolled ? 1 : 0 }}
             />
 
-            {/* 3D decoration — desktop, scrolled */}
             {scrolled && (
               <div className="pointer-events-none absolute right-44 top-1/2 hidden h-20 w-56 -translate-y-1/2 xl:block">
                 <Canvas
@@ -129,7 +141,6 @@ export default function Navbar() {
               </div>
             )}
 
-            {/* Logo */}
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.97 }}
@@ -146,11 +157,10 @@ export default function Navbar() {
                 </div>
               </div>
               <span className="hidden text-sm font-semibold tracking-tight sm:block" style={{ color: "var(--text-secondary)" }}>
-                 Syam Prasad Reddy
+                Syam Prasad Reddy
               </span>
             </motion.button>
 
-            {/* Desktop nav */}
             <ul className="relative z-10 hidden items-center gap-1 md:flex">
               {navLinks.map((link) => (
                 <li key={link.href}>
@@ -172,7 +182,6 @@ export default function Navbar() {
               ))}
             </ul>
 
-            {/* Right actions */}
             <div className="relative z-10 flex items-center gap-2">
               {mounted && (
                 <motion.button
@@ -189,9 +198,16 @@ export default function Navbar() {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  const link = document.createElement("a");
+                  link.href = "../../assets/syamprasadreddy.pdf";
+                  link.download = "SyamPrasadReddyResume.pdf";
+                  link.click();
+                }}
                 className="hidden items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 sm:flex"
               >
-                <Download size={13} /> Resume
+                <Download size={13} />
+                Resume
               </motion.button>
 
               <button

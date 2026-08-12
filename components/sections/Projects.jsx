@@ -6,7 +6,7 @@ import { ExternalLink, ArrowRight, Star, TrendingUp } from "lucide-react";
 import GithubIcon from "@/components/ui/GithubIcon";
 import { projects } from "@/lib/data";
 
-/* ─── 3D Tilt Card ─── */
+
 function TiltCard({ children, className = "" }) {
   const cardRef = useRef(null);
   const x = useMotionValue(0);
@@ -32,7 +32,7 @@ function TiltCard({ children, className = "" }) {
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
       className={`perspective-wrapper ${className}`}
     >
-      {/* Mouse-following highlight */}
+
       <motion.div
         className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
@@ -44,7 +44,6 @@ function TiltCard({ children, className = "" }) {
   );
 }
 
-/* ─── Project Card ─── */
 function ProjectCard({ project, index, featured = false }) {
   const ref = useRef();
   const inView = useInView(ref, { once: true, margin: "-60px" });
@@ -58,11 +57,10 @@ function ProjectCard({ project, index, featured = false }) {
       className={featured ? "md:col-span-2" : ""}
     >
       <TiltCard className="group relative glass-card rounded-2xl overflow-hidden h-full">
-        {/* Gradient header */}
         <div
           className={`relative overflow-hidden ${featured ? "h-52" : "h-40"} bg-gradient-to-br ${project.color}`}
         >
-          {/* Dot grid */}
+          
           <div
             className="absolute inset-0 opacity-15"
             style={{
@@ -71,7 +69,6 @@ function ProjectCard({ project, index, featured = false }) {
             }}
           />
 
-          {/* 3D floating geometric shapes */}
           <motion.div
             className="absolute right-8 top-7"
             animate={{ rotateY: [0, 360], rotateX: [0, 20, 0] }}
@@ -102,7 +99,6 @@ function ProjectCard({ project, index, featured = false }) {
             />
           </motion.div>
 
-          {/* Featured badge */}
           {project.featured && (
             <div className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full border border-white/15 bg-black/30 px-3 py-1 backdrop-blur-sm">
               <Star size={9} className="fill-yellow-400 text-yellow-400" />
@@ -110,13 +106,11 @@ function ProjectCard({ project, index, featured = false }) {
             </div>
           )}
 
-          {/* Card number */}
           <div className="absolute bottom-4 right-5 select-none text-5xl font-black text-white/8">
             {String(index + 1).padStart(2, "0")}
           </div>
         </div>
 
-        {/* Body */}
         <div className={`flex flex-col gap-4 ${featured ? "p-7" : "p-6"}`}>
           <div>
             <h3
@@ -140,7 +134,6 @@ function ProjectCard({ project, index, featured = false }) {
             {project.description}
           </p>
 
-          {/* Metrics */}
           <div className="flex flex-wrap gap-2">
             {project.metrics.map((m) => (
               <span
@@ -154,7 +147,6 @@ function ProjectCard({ project, index, featured = false }) {
             ))}
           </div>
 
-          {/* Tech */}
           <div className="flex flex-wrap gap-1.5">
             {project.tech.slice(0, featured ? 7 : 5).map((t) => (
               <span key={t} className="tech-badge text-[11px]">{t}</span>
@@ -164,7 +156,6 @@ function ProjectCard({ project, index, featured = false }) {
             )}
           </div>
 
-          {/* Links */}
           <div
             className="flex items-center justify-between border-t pt-4"
             style={{ borderColor: "var(--border)" }}
@@ -220,7 +211,7 @@ export default function Projects() {
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_80%_60%_at_50%_40%,rgba(99,102,241,0.05),transparent)]" />
 
       <div className="relative mx-auto max-w-7xl px-6">
-        {/* Header */}
+
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -239,22 +230,18 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        {/* Bento-style grid */}
+        
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {/* Featured — spans 2 cols on md+ */}
           <ProjectCard project={featured} index={0} featured />
 
-          {/* Row 2: two standard */}
           <ProjectCard project={second} index={1} />
           <ProjectCard project={third}  index={2} />
 
-          {/* Row 3: remaining */}
           {remaining.map((p, i) => (
             <ProjectCard key={p.id} project={p} index={i + 3} />
           ))}
         </div>
 
-        {/* GitHub CTA */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
@@ -262,7 +249,7 @@ export default function Projects() {
           className="mt-14 flex justify-center"
         >
           <motion.a
-            href="https://github.com/syamreddy"
+            href="https://github.com/syamdev9000-collab"
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.03 }}

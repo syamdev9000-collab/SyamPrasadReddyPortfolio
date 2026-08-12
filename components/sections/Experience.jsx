@@ -79,12 +79,10 @@ function TimelineItem({ item, index, total }) {
       transition={{ duration: 0.6, delay: index * 0.14, ease: [0.21, 0.47, 0.32, 0.98] }}
       className={`relative grid grid-cols-1 items-start gap-4 md:grid-cols-[1fr_auto_1fr] ${index < total - 1 ? "pb-10" : ""}`}
     >
-      {/* Left card slot */}
       <div className="order-2 md:order-none">
         {isLeft ? <TimelineCard item={item} /> : <div className="hidden md:block" />}
       </div>
 
-      {/* Center dot + connector */}
       <div className="relative order-1 flex flex-col items-center md:order-none">
         <motion.div
           initial={{ scale: 0 }}
@@ -115,12 +113,10 @@ function TimelineItem({ item, index, total }) {
         )}
       </div>
 
-      {/* Right card slot */}
       <div className="order-2 md:order-none">
         {!isLeft ? <TimelineCard item={item} /> : <div className="hidden md:block" />}
       </div>
 
-      {/* Mobile: card always below */}
       <div className="order-3 col-span-full md:hidden">
         <TimelineCard item={item} />
       </div>

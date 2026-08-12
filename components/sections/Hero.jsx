@@ -67,61 +67,58 @@ function ParticleField() {
   );
 }
 
-/* ─── Floating Icosahedron ─── */
-function FloatingIco() {
+function HeroGlobe() {
+  const { viewport } = useThree();
   const spinRef = useRef();
+  const ringRef = useRef();
+
+  const x = useMemo(() => {
+    const maxX = viewport.width / 2 - 2.35;
+    if (maxX < 0.6) return null;
+    return Math.min(3.5, maxX);
+  }, [viewport.width]);
+
   useFrame((state) => {
-    if (!spinRef.current) return;
-    const elapsed = state.clock.getElapsedTime();
-    spinRef.current.rotation.y = elapsed * 0.35;
+    const t = state.clock.getElapsedTime();
+    if (spinRef.current) spinRef.current.rotation.y = t * 0.35;
+    if (ringRef.current) {
+      ringRef.current.rotation.z = t * 0.25;
+      ringRef.current.rotation.x = 1.1;
+    }
   });
+
+  if (x === null) return null;
+
   return (
-    <Float speed={1.2} floatIntensity={0.5} rotationIntensity={0}>
-      <group position={[3.5, 0.5, -1]}>
+    <group position={[x, 0.5, -1]}>
+      <Float speed={1.2} floatIntensity={0.5} rotationIntensity={0}>
         <group ref={spinRef} rotation={[0.45, 0, 0.15]}>
           {/* Wire frame */}
           <Icosahedron args={[1.2, 0]} scale={1}>
             <meshStandardMaterial
-              color="#a78bfa" wireframe transparent opacity={0.85}
-              roughness={0.1} metalness={0.6} emissive="#7c3aed" emissiveIntensity={0.55}
+              color="#60a5fa" wireframe transparent opacity={0.9}
+              roughness={0.2} metalness={0} emissive="#3b82f6" emissiveIntensity={0.6}
             />
           </Icosahedron>
-          {/* Solid inner */}
           <Icosahedron args={[1.0, 0]} scale={1}>
             <meshStandardMaterial
-              color="#6366f1" transparent opacity={0.18}
-              roughness={0} metalness={0.8} emissive="#6366f1" emissiveIntensity={0.45}
+              color="#3b82f6" transparent opacity={0.25}
+              roughness={0.1} metalness={0} emissive="#3b82f6" emissiveIntensity={0.8}
             />
           </Icosahedron>
         </group>
-        {/* Glow halo — stays fixed while the shape spins */}
         <pointLight color="#8b5cf6" intensity={3} distance={6} />
-      </group>
-    </Float>
-  );
-}
-
-/* ─── Orbiting Ring ─── */
-function OrbitRing() {
-  const ref = useRef();
-  useFrame((state) => {
-    if (!ref.current) return;
-    ref.current.rotation.z = state.clock.getElapsedTime() * 0.25;
-    ref.current.rotation.x = 1.1;
-  });
-  return (
-    <group position={[3.5, 0.5, -1]}>
-      <Torus ref={ref} args={[2.2, 0.01, 2, 120]}>
+      </Float>
+      <Torus ref={ringRef} args={[2.2, 0.012, 2, 120]}>
         <meshStandardMaterial
-          color="#06b6d4" transparent opacity={0.4}
-          roughness={0} metalness={1}
+          color="#38bdf8" transparent opacity={0.7}
+          roughness={0.2} metalness={0} emissive="#0ea5e9" emissiveIntensity={0.4}
         />
       </Torus>
     </group>
   );
 }
 
-/* ─── Mouse-Driven Camera ─── */
 function CameraRig({ mouseX, mouseY }) {
   const { camera } = useThree();
   useFrame(() => {
@@ -132,7 +129,6 @@ function CameraRig({ mouseX, mouseY }) {
   return null;
 }
 
-/* ─── Scene ─── */
 function HeroScene({ mouseX, mouseY }) {
   return (
     <>
@@ -143,13 +139,11 @@ function HeroScene({ mouseX, mouseY }) {
 
       <CameraRig mouseX={mouseX} mouseY={mouseY} />
       <ParticleField />
-      <FloatingIco />
-      <OrbitRing />
+      <HeroGlobe />
     </>
   );
 }
 
-/* ─── Typewriter Hook ─── */
 function useTypewriter(words, speed = 75, pause = 2200) {
   const [display, setDisplay] = useState("");
   const [wordIdx, setWordIdx] = useState(0);
@@ -184,7 +178,6 @@ const floatingTech = ["Python", "LangChain", "FastAPI", "React", "AWS", "OpenAI"
 export default function Hero() {
   const role = useTypewriter(personalInfo.roles);
 
-  /* mouse parallax values */
   const rawMouseX = useMotionValue(0);
   const rawMouseY = useMotionValue(0);
   const mouseX = useSpring(rawMouseX, { stiffness: 80, damping: 30 });
@@ -207,21 +200,13 @@ export default function Hero() {
       className="relative min-h-screen w-full overflow-hidden flex items-center"
       onMouseMove={handleMouseMove}
     >
-      {/* Base bg */}
       <div className="absolute inset-0 section-bg" />
-
-      {/* Grid pattern */}
       <div className="absolute inset-0 grid-pattern opacity-40" />
-
-      {/* Radial fade over grid */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_70%_at_50%_-10%,rgba(99,102,241,0.14),transparent)]" />
-
-      {/* CSS orbs */}
       <div className="absolute -left-48 top-1/4 h-[700px] w-[700px] rounded-full bg-indigo-600/10 blur-[130px] orb-1" />
       <div className="absolute -right-48 bottom-1/4 h-[600px] w-[600px] rounded-full bg-violet-600/10 blur-[110px] orb-2" />
       <div className="absolute left-1/3 top-2/3 h-[400px] w-[400px] rounded-full bg-cyan-600/8 blur-[90px] orb-3" />
-
-      {/* 3D Canvas */}
+      
       <div className="absolute inset-0 pointer-events-none">
         <Canvas
           camera={{ position: [0, 0, 7], fov: 52 }}
@@ -235,11 +220,9 @@ export default function Hero() {
         </Canvas>
       </div>
 
-      {/* ── CONTENT ── */}
       <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pt-36 pb-24">
         <div className="max-w-2xl xl:max-w-3xl">
 
-          {/* Status pill */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -255,7 +238,6 @@ export default function Hero() {
             </span>
           </motion.div>
 
-          {/* Main headline */}
           <motion.h1
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
@@ -270,7 +252,6 @@ export default function Hero() {
             Systems.
           </motion.h1>
 
-          {/* Typewriter */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -283,8 +264,6 @@ export default function Hero() {
               <span className="ml-0.5 inline-block h-4 w-0.5 animate-pulse bg-indigo-400 align-middle" />
             </span>
           </motion.div>
-
-          {/* Sub */}
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -328,7 +307,6 @@ export default function Hero() {
             </motion.button>
           </motion.div>
 
-          {/* Social row */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -359,7 +337,6 @@ export default function Hero() {
             </span>
           </motion.div>
 
-          {/* Floating tech badges */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -381,8 +358,6 @@ export default function Hero() {
           </motion.div>
         </div>
       </div>
-
-      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
