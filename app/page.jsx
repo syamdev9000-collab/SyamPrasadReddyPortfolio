@@ -13,7 +13,7 @@ import Achievements from "@/components/sections/Achievements";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/Footer";
 
-/* CustomCursor only renders on desktop — client-side only */
+
 const CustomCursor = dynamic(() => import("@/components/CustomCursor"), {
   ssr: false,
 });
@@ -26,7 +26,6 @@ export default function Home() {
       <Navbar />
 
       <main className="relative">
-        {/* Noise texture overlay */}
         <div className="noise-overlay" aria-hidden />
 
         <Hero />

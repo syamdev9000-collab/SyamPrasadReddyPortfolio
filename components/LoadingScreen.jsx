@@ -30,7 +30,6 @@ export default function LoadingScreen() {
           exit={{ opacity: 0, scale: 1.05 }}
           transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
         >
-          {/* Logo mark */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -56,8 +55,6 @@ export default function LoadingScreen() {
                Syam Prasad Reddy
             </motion.p>
           </motion.div>
-
-          {/* Progress bar */}
           <motion.div
             initial={{ opacity: 0, width: 0 }}
             animate={{ opacity: 1, width: 200 }}

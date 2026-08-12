@@ -15,7 +15,6 @@ export default function Footer() {
     >
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="flex flex-col items-center gap-6">
-          {/* Logo */}
           <div className="flex flex-col items-center gap-3">
             <div className="relative flex h-12 w-12 items-center justify-center">
               <div className="absolute inset-0 rounded-xl animated-border opacity-60" />
@@ -32,7 +31,6 @@ export default function Footer() {
             <p className="text-xs" style={{ color: "var(--text-muted)" }}>Senior AI Engineer</p>
           </div>
 
-          {/* Nav */}
           <nav className="flex flex-wrap justify-center gap-6">
             {navLinks.map((link) => (
               <button
@@ -46,7 +44,6 @@ export default function Footer() {
             ))}
           </nav>
 
-          {/* Social */}
           <div className="flex items-center gap-3">
             {[
               { href: personalInfo.github,            el: <GithubIcon size={14} /> },
@@ -67,10 +64,8 @@ export default function Footer() {
             ))}
           </div>
 
-          {/* Divider */}
           <div className="h-px w-full bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
 
-          {/* Bottom row */}
           <div
             className="flex w-full items-center justify-between text-[11px]"
             style={{ color: "var(--text-muted)" }}

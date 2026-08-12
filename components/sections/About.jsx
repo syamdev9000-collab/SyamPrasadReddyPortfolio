@@ -5,47 +5,101 @@ import { motion, useInView } from "framer-motion";
 import { MapPin, Zap, ArrowRight } from "lucide-react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Icosahedron, Torus } from "@react-three/drei";
+import * as THREE from "three";
 import { stats } from "@/lib/data";
 
 /* ─── 3D decoration ─── */
 function FloatingGeo() {
-  const icoRef = useRef();
-  const torusRef = useRef();
+  const nucleusRef = useRef();
+  const ringRefs = useRef([]);
+
+  const rings = [
+    { args: [1.5, 0.012, 8, 100], rot: [0.6, 0.15, 0], speed: 0.9,  color: "#38bdf8", dot: "#7dd3fc" },
+    { args: [1.25, 0.012, 8, 100], rot: [0.45, 0.5, 0], speed: -0.7, color: "#3b82f6", dot: "#93c5fd" },
+    { args: [1.72, 0.01, 8, 100], rot: [-0.5, 0.9, 0], speed: 1.2,  color: "#60a5fa", dot: "#dbeafe" },
+  ];
 
   useFrame((state) => {
-    const elapsed = state.clock.getElapsedTime();
-    if (icoRef.current) {
-      icoRef.current.rotation.x = elapsed * 0.18;
-      icoRef.current.rotation.y = elapsed * 0.26;
-    }
-    if (torusRef.current) {
-      torusRef.current.rotation.z = elapsed * 0.22;
-      torusRef.current.rotation.x = elapsed * 0.14;
+    const t = state.clock.getElapsedTime();
+    ringRefs.current.forEach((g, i) => {
+      if (!g) return;
+      const r = rings[i];
+      g.rotation.z = t * r.speed;
+      g.rotation.x = r.rot[0] + Math.sin(t * 0.7 + i * 2.1) * 0.28;
+      g.rotation.y = r.rot[1] + Math.cos(t * 0.55 + i * 1.4) * 0.22;
+    });
+    if (nucleusRef.current) {
+      const s = 1 + Math.sin(t * 2.2) * 0.1;
+      nucleusRef.current.scale.setScalar(s);
     }
   });
 
   return (
     <>
       <ambientLight intensity={0.4} />
-      <pointLight position={[3, 3, 3]}   color="#818cf8" intensity={2} />
-      <pointLight position={[-3, -2, 2]} color="#06b6d4" intensity={1.5} />
+      <pointLight position={[3, 3, 3]}   color="#3b82f6" intensity={2} />
+      <pointLight position={[-3, -2, 2]} color="#38bdf8" intensity={1.5} />
 
-      <Float speed={1.8} floatIntensity={0.5}>
-        <Icosahedron ref={icoRef} args={[1, 0]}>
-          <meshStandardMaterial color="#8b5cf6" wireframe transparent opacity={0.6} roughness={0.1} metalness={0.9} />
+      {/* Nucleus */}
+      <Float speed={1.8} floatIntensity={0.3}>
+        <Icosahedron ref={nucleusRef} args={[0.42, 1]}>
+          <meshStandardMaterial
+            color="#3b82f6"
+            roughness={0.1}
+            metalness={0}
+            emissive="#3b82f6"
+            emissiveIntensity={0.9}
+          />
         </Icosahedron>
+        <mesh>
+          <sphereGeometry args={[0.78, 24, 24]} />
+          <meshBasicMaterial
+            color="#3b82f6"
+            transparent
+            opacity={0.12}
+            blending={THREE.AdditiveBlending}
+            depthWrite={false}
+          />
+        </mesh>
       </Float>
 
-      <Float speed={1.2} floatIntensity={0.3}>
-        <Torus ref={torusRef} args={[1.6, 0.03, 2, 80]}>
-          <meshStandardMaterial color="#06b6d4" transparent opacity={0.5} roughness={0} metalness={1} />
-        </Torus>
-      </Float>
+      {/* Orbital rings */}
+      {rings.map((ring, i) => (
+        <group
+          key={i}
+          ref={(el) => { ringRefs.current[i] = el; }}
+          rotation={ring.rot}
+        >
+          <Torus args={ring.args}>
+            <meshStandardMaterial
+              color={ring.color}
+              transparent
+              opacity={0.75}
+              roughness={0.2}
+              metalness={0}
+              emissive={ring.color}
+              emissiveIntensity={0.45}
+            />
+          </Torus>
+          <mesh position={[ring.args[0], 0, 0]}>
+            <sphereGeometry args={[0.11, 12, 12]} />
+            <meshBasicMaterial color="#ffffff" />
+          </mesh>
+          <mesh position={[ring.args[0], 0, 0]} scale={[0.7, 2.6, 0.7]}>
+            <sphereGeometry args={[0.09, 12, 12]} />
+            <meshBasicMaterial
+              color={ring.dot}
+              transparent
+              opacity={0.5}
+              depthWrite={false}
+            />
+          </mesh>
+        </group>
+      ))}
     </>
   );
 }
 
-/* ─── Animated counter ─── */
 function AnimatedCounter({ value, suffix = "" }) {
   const [count, setCount] = useState(0);
   const ref = useRef();
@@ -101,17 +155,15 @@ export default function About() {
           </p>
         </motion.div>
 
-        {/* Two-col layout */}
+        
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-20 items-start">
 
-          {/* LEFT — Story */}
           <motion.div
             initial={{ opacity: 0, x: -36 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.21, 0.47, 0.32, 0.98] }}
             className="space-y-6"
           >
-            {/* Avatar */}
             <div className="inline-flex items-center gap-4">
               <div className="relative h-20 w-20">
                 <div className="absolute inset-0 rounded-2xl animated-border opacity-70" />
@@ -132,7 +184,6 @@ export default function About() {
               </div>
             </div>
 
-            {/* Story */}
             <div className="space-y-5 text-[15px] leading-relaxed" style={{ color: "var(--text-secondary)" }}>
               <p>
                 I started with <span className="font-semibold" style={{ color: "var(--text-primary)" }}>ECE circuits and signal processing</span> — spending late nights debugging hardware that refused to cooperate. That systematic, first-principles thinking never left me, even when I switched lanes.
@@ -152,7 +203,6 @@ export default function About() {
               </blockquote>
             </div>
 
-            {/* Tags */}
             <div className="flex flex-wrap gap-2 pt-1">
               <span
                 className="flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs"
@@ -175,14 +225,12 @@ export default function About() {
             </motion.button>
           </motion.div>
 
-          {/* RIGHT — Stats + 3D + card */}
           <motion.div
             initial={{ opacity: 0, x: 36 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.35, ease: [0.21, 0.47, 0.32, 0.98] }}
             className="space-y-4"
           >
-            {/* Stats grid */}
             <div className="grid grid-cols-2 gap-3">
               {stats.map((stat, i) => (
                 <motion.div
@@ -202,7 +250,6 @@ export default function About() {
               ))}
             </div>
 
-            {/* 3D canvas card */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -217,7 +264,6 @@ export default function About() {
               </Canvas>
             </motion.div>
 
-            {/* Skill bars */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}

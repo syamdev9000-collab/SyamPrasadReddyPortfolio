@@ -37,7 +37,6 @@ export default function Contact() {
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_60%_60%_at_50%_80%,rgba(99,102,241,0.07),transparent)]" />
 
       <div className="relative mx-auto max-w-7xl px-6">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -58,7 +57,6 @@ export default function Contact() {
         </motion.div>
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-          {/* Social links */}
           <motion.div
             initial={{ opacity: 0, x: -28 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
@@ -95,7 +93,6 @@ export default function Contact() {
               </motion.a>
             ))}
 
-            {/* Availability */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={inView ? { opacity: 1 } : {}}

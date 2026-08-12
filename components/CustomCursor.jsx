@@ -52,7 +52,6 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* Cursor dot */}
       <motion.div
         className="pointer-events-none fixed z-[99999] h-2 w-2 rounded-full bg-indigo-500"
         style={{
@@ -62,7 +61,6 @@ export default function CustomCursor() {
           translateY: "-50%",
         }}
       />
-      {/* Cursor ring */}
       <motion.div
         className="pointer-events-none fixed z-[99998] h-9 w-9 rounded-full border border-indigo-400/60"
         style={{

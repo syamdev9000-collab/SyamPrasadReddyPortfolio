@@ -31,12 +31,12 @@ function TorusRing() {
 }
 
 const pipelineSteps = [
-  { label: "User Input",  icon: "👤", color: "#6366f1" },
-  { label: "LLM Router",  icon: "🧭", color: "#8b5cf6" },
-  { label: "Vector Store", icon: "🗃️", color: "#a78bfa" },
-  { label: "Agent Layer", icon: "🤖", color: "#6366f1" },
-  { label: "Tool Calls",  icon: "⚡", color: "#06b6d4" },
-  { label: "Response",    icon: "✅", color: "#10b981" },
+  { label: "User Input",  icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>, color: "#6366f1" },
+  { label: "LLM Router",  icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>, color: "#8b5cf6" },
+  { label: "Vector Store", icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>, color: "#a78bfa" },
+  { label: "Agent Layer", icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#06B6D4" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>, color: "#6366f1" },
+  { label: "Tool Calls",  icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>, color: "#06b6d4" },
+  { label: "Response",    icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>, color: "#10b981" },
 ];
 
 function AIWorkCard({ item, index }) {
@@ -51,6 +51,7 @@ function AIWorkCard({ item, index }) {
       transition={{ duration: 0.6, delay: index * 0.12, ease: [0.21, 0.47, 0.32, 0.98] }}
       className="group relative glass-card rounded-2xl p-7 hover-glow overflow-hidden transition-all duration-300 hover:-translate-y-1"
     >
+
       <div
         className="absolute -top-20 -right-20 h-40 w-40 rounded-full blur-[60px] opacity-0 group-hover:opacity-20 transition-opacity duration-500"
         style={{ background: item.accent }}
@@ -75,10 +76,8 @@ function AIWorkCard({ item, index }) {
         </div>
       </div>
 
-      {/* Description */}
       <p className="text-sm leading-relaxed mb-5" style={{ color: "var(--text-secondary)" }}>{item.description}</p>
 
-      {/* Capabilities */}
       <ul className="space-y-2">
         {item.capabilities.map((cap, i) => (
           <motion.li
@@ -117,11 +116,9 @@ export default function AIWork() {
       ref={sectionRef}
       className="relative section-padding overflow-hidden"
     >
-      {/* Theme-aware background */}
       <div className="absolute inset-0" style={{ background: "var(--bg-feature)" }} />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,rgba(99,102,241,0.08),transparent)]" />
-
-      {/* 3D element — positioned in background */}
+      
       <div className="absolute right-0 top-0 h-full w-2/5 opacity-60 pointer-events-none hidden lg:block">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_40%,rgba(99,102,241,0.18),transparent_60%)]" />
         <Canvas
@@ -139,7 +136,6 @@ export default function AIWork() {
       </div>
 
       <div className="relative mx-auto max-w-7xl px-6">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -186,14 +182,11 @@ export default function AIWork() {
           </motion.div>
         </div>
 
-        {/* AI Work cards grid */}
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
           {aiWork.map((item, i) => (
             <AIWorkCard key={item.id} item={item} index={i} />
           ))}
         </div>
-
-        {/* Tech pipeline visual */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -232,7 +225,6 @@ export default function AIWork() {
                   </span>
                 </motion.div>
 
-                {/* Connector with flowing data dot */}
                 {i < pipelineSteps.length - 1 && (
                   <motion.div
                     initial={{ opacity: 0 }}

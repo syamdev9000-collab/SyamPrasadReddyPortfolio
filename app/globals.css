@@ -4,11 +4,8 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=JetBrains+Mono:wght@400;500&display=swap');
 
-/* ──────────────────────────────────────────────────────
-   DESIGN TOKENS  — dark (default)
-────────────────────────────────────────────────────── */
 :root {
-  /* core */
+
   --bg-primary:   #030308;
   --bg-secondary: #070714;
   --bg-alt:       #0a0a1e;
@@ -18,43 +15,34 @@
   --border:       rgba(255, 255, 255, 0.07);
   --border-hover: rgba(99, 102, 241, 0.4);
 
-  /* track (skill bars etc) */
+
   --track: rgba(255, 255, 255, 0.06);
 
-  /* secondary button */
+
   --btn-bg: rgba(255, 255, 255, 0.05);
   --btn-border: rgba(255, 255, 255, 0.18);
   --btn-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 
-  /* text */
   --text-primary:   #e8e8f4;
   --text-secondary: #8e8ea0;
   --text-muted:     #52525e;
-
-  /* accent */
   --accent-1: #6366f1;   /* indigo */
   --accent-2: #8b5cf6;   /* violet */
   --accent-3: #06b6d4;   /* cyan */
   --accent-4: #a855f7;   /* purple */
 
-  /* nav */
   --nav-bg: linear-gradient(180deg, rgba(8, 8, 24, 0.9), rgba(3, 3, 8, 0.72));
 
-  /* gradients */
   --grad-text:    linear-gradient(135deg, #818cf8 0%, #a78bfa 45%, #22d3ee 100%);
   --grad-brand:   linear-gradient(135deg, #6366f1 0%, #8b5cf6 60%, #06b6d4 100%);
   --grad-glow:    linear-gradient(135deg, rgba(99,102,241,.35) 0%, rgba(139,92,246,.35) 60%, rgba(6,182,212,.35) 100%);
 
-  /* shadows */
   --shadow-glow-sm:  0 0 20px rgba(99,102,241,.18);
   --shadow-glow:     0 0 40px rgba(99,102,241,.25);
   --shadow-card:     0 1px 0 rgba(255,255,255,.05), 0 16px 48px rgba(0,0,0,.4);
   --shadow-card-hover: 0 0 0 1px rgba(99,102,241,.3), 0 24px 64px rgba(0,0,0,.5);
 }
 
-/* ──────────────────────────────────────────────────────
-   LIGHT THEME TOKENS
-────────────────────────────────────────────────────── */
 .light {
   --bg-primary:   #fafaff;
   --bg-secondary: #f2f2fb;
@@ -65,10 +53,10 @@
   --border:       rgba(0, 0, 0, 0.07);
   --border-hover: rgba(99, 102, 241, 0.4);
 
-  /* track */
+
   --track: rgba(0, 0, 0, 0.07);
 
-  /* secondary button */
+
   --btn-bg: rgba(255, 255, 255, 0.92);
   --btn-border: rgba(79, 70, 229, 0.35);
   --btn-shadow: 0 4px 16px rgba(99, 102, 241, 0.15);
@@ -77,7 +65,7 @@
   --text-secondary: #4a4a5e;
   --text-muted:     #8888a0;
 
-  /* nav */
+
   --nav-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(243, 243, 251, 0.88));
 
   --grad-text:  linear-gradient(135deg, #4f46e5 0%, #7c3aed 45%, #0891b2 100%);
@@ -88,9 +76,7 @@
   --shadow-card-hover: 0 0 0 1.5px rgba(99,102,241,.35), 0 16px 48px rgba(99,102,241,.12);
 }
 
-/* ──────────────────────────────────────────────────────
-   RESET + BASE
-────────────────────────────────────────────────────── */
+
 *, *::before, *::after {
   box-sizing: border-box;
   padding: 0;
@@ -109,9 +95,6 @@ body {
   transition: background 0.35s ease, color 0.35s ease;
 }
 
-/* ──────────────────────────────────────────────────────
-   SCROLLBAR
-────────────────────────────────────────────────────── */
 ::-webkit-scrollbar       { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg-primary); }
 ::-webkit-scrollbar-thumb {
@@ -119,17 +102,12 @@ body {
   border-radius: 999px;
 }
 
-/* ──────────────────────────────────────────────────────
-   SELECTION
-────────────────────────────────────────────────────── */
+
 ::selection {
   background: rgba(99, 102, 241, 0.25);
   color: inherit;
 }
 
-/* ──────────────────────────────────────────────────────
-   GRADIENT TEXT
-────────────────────────────────────────────────────── */
 .gradient-text {
   background: var(--grad-text);
   -webkit-background-clip: text;
@@ -137,9 +115,6 @@ body {
   background-clip: text;
 }
 
-/* ──────────────────────────────────────────────────────
-   GLASS CARD  — theme-aware
-────────────────────────────────────────────────────── */
 .glass-card {
   background: var(--bg-card);
   backdrop-filter: blur(24px);
@@ -155,31 +130,22 @@ body {
   background: var(--bg-card-hover);
 }
 
-/* light mode: crisp white cards, no blur */
 .light .glass-card {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
 
-/* ──────────────────────────────────────────────────────
-   SECTION BG HELPERS
-────────────────────────────────────────────────────── */
 .section-bg        { background: var(--bg-primary); }
 .section-bg-alt    { background: var(--bg-secondary); }
 .section-bg-dark   { background: var(--bg-alt); }
 
-/* ──────────────────────────────────────────────────────
-   SECTION PADDING
-────────────────────────────────────────────────────── */
+
 .section-padding { padding: 128px 0; }
 @media (max-width: 768px) {
   .section-padding { padding: 80px 0; }
 }
 
-/* ──────────────────────────────────────────────────────
-   SECTION NUMBER LABEL
-────────────────────────────────────────────────────── */
 .section-number {
   font-size: 11px;
   font-weight: 700;
@@ -188,9 +154,7 @@ body {
   color: var(--accent-1);
 }
 
-/* ──────────────────────────────────────────────────────
-   ANIMATED GRADIENT BORDER
-────────────────────────────────────────────────────── */
+
 @keyframes gradient-rotate {
   0%   { background-position: 0% 50%; }
   50%  { background-position: 100% 50%; }
@@ -203,9 +167,7 @@ body {
   animation: gradient-rotate 5s ease infinite;
 }
 
-/* ──────────────────────────────────────────────────────
-   HOVER GLOW BORDER
-────────────────────────────────────────────────────── */
+
 .hover-glow {
   position: relative;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -229,9 +191,7 @@ body {
 .hover-glow:hover::before { opacity: 1; }
 .hover-glow:hover { transform: translateY(-2px); }
 
-/* ──────────────────────────────────────────────────────
-   TECH BADGE
-────────────────────────────────────────────────────── */
+
 .tech-badge {
   display: inline-flex;
   align-items: center;
@@ -260,9 +220,6 @@ body {
   color: #4f46e5;
 }
 
-/* ──────────────────────────────────────────────────────
-   NOISE OVERLAY
-────────────────────────────────────────────────────── */
 .noise-overlay {
   position: fixed;
   inset: 0;
@@ -274,9 +231,6 @@ body {
 
 .light .noise-overlay { opacity: 0.015; }
 
-/* ──────────────────────────────────────────────────────
-   LOADING SCREEN
-────────────────────────────────────────────────────── */
 .loading-screen {
   position: fixed;
   inset: 0;
@@ -287,9 +241,7 @@ body {
   justify-content: center;
 }
 
-/* ──────────────────────────────────────────────────────
-   CURSOR
-────────────────────────────────────────────────────── */
+
 .cursor-dot  {
   width: 7px; height: 7px;
   background: #6366f1;
@@ -310,9 +262,7 @@ body {
   transform: translate(-50%, -50%);
 }
 
-/* ──────────────────────────────────────────────────────
-   ORB ANIMATIONS  (CSS fallback for hero bg)
-────────────────────────────────────────────────────── */
+
 @keyframes orb-1 {
   0%, 100% { transform: translate(0, 0) scale(1); }
   33%      { transform: translate(50px, -70px) scale(1.1); }
@@ -333,17 +283,11 @@ body {
 .orb-2 { animation: orb-2 18s ease-in-out infinite; }
 .orb-3 { animation: orb-3 22s ease-in-out infinite; }
 
-/* ──────────────────────────────────────────────────────
-   FLOAT ANIMATION
-────────────────────────────────────────────────────── */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50%       { transform: translateY(-18px); }
 }
 
-/* ──────────────────────────────────────────────────────
-   SHIMMER
-────────────────────────────────────────────────────── */
 @keyframes shimmer {
   0%   { background-position: -200% 0; }
   100% { background-position:  200% 0; }
@@ -355,12 +299,8 @@ body {
   animation: shimmer 2.5s infinite;
 }
 
-/* ──────────────────────────────────────────────────────
-   LIGHT MODE — GLOBAL OVERRIDES
-────────────────────────────────────────────────────── */
 .light body { background: var(--bg-primary); }
 
-/* text utility overrides in light */
 .light .text-slate-400  { color: #4b5563 !important; }
 .light .text-slate-500  { color: #6b7280 !important; }
 .light .text-slate-600  { color: #9ca3af !important; }
@@ -368,12 +308,11 @@ body {
 .light .text-white\/80  { color: #1a1a2e !important; }
 .light .text-white\/90  { color: #0d0d1f !important; }
 
-/* keep white text on solid brand-colored buttons in light mode */
 .light .bg-indigo-600.text-white { color: #ffffff !important; }
 .light .bg-indigo-500.text-white { color: #ffffff !important; }
 .light .bg-gradient-to-br.text-white { color: #ffffff !important; }
 
-/* Input fields light */
+
 .light input, .light textarea {
   background: rgba(0,0,0,0.04) !important;
   border-color: rgba(0,0,0,0.1) !important;
@@ -384,24 +323,19 @@ body {
   color: #aaaabc !important;
 }
 
-/* Border */
 .light .border-white\/\[0\.08\] { border-color: rgba(0,0,0,0.08) !important; }
 .light .border-white\/10  { border-color: rgba(0,0,0,0.08) !important; }
 .light .bg-white\/5       { background: rgba(0,0,0,0.03) !important; }
 .light .bg-white\/\[0\.04\] { background: rgba(0,0,0,0.025) !important; }
 .light .bg-white\/\[0\.03\] { background: rgba(0,0,0,0.02) !important; }
 
-/* ──────────────────────────────────────────────────────
-   3D CARD PERSPECTIVE WRAPPER
-────────────────────────────────────────────────────── */
+
 .perspective-wrapper {
   perspective: 1000px;
   transform-style: preserve-3d;
 }
 
-/* ──────────────────────────────────────────────────────
-   GRID PATTERN
-────────────────────────────────────────────────────── */
+
 .grid-pattern {
   background-image:
     linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px),
@@ -415,17 +349,13 @@ body {
     linear-gradient(to right, rgba(99,102,241,0.06) 1px, transparent 1px);
 }
 
-/* ──────────────────────────────────────────────────────
-   TIMELINE
-────────────────────────────────────────────────────── */
+
 .timeline-connector {
   background: linear-gradient(to bottom, var(--accent-1), var(--accent-2), transparent);
   opacity: 0.35;
 }
 
-/* ──────────────────────────────────────────────────────
-   GLOW DOT PULSE
-────────────────────────────────────────────────────── */
+
 @keyframes glow-pulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(99,102,241,0); }
   50%       { box-shadow: 0 0 0 8px rgba(99,102,241,0); }
