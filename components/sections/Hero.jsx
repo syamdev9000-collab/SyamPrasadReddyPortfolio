@@ -9,145 +9,59 @@ import { ArrowRight, Linkedin, Mail, Cpu } from "lucide-react";
 import GithubIcon from "@/components/ui/GithubIcon";
 import { personalInfo } from "@/lib/data";
 
-/* ─── Neural Network Nodes ─── */
-function NeuralNetwork() {
-  const groupRef = useRef();
-  const linesRef = useRef();
 
-  const { nodes, connections } = useMemo(() => {
-    const nodeCount = 60;
-    const nodes = Array.from({ length: nodeCount }, () => ({
-      pos: new THREE.Vector3(
-        (Math.random() - 0.5) * 12,
-        (Math.random() - 0.5) * 8,
-        (Math.random() - 0.5) * 6
-      ),
-      vel: new THREE.Vector3(
-        (Math.random() - 0.5) * 0.004,
-        (Math.random() - 0.5) * 0.004,
-        (Math.random() - 0.5) * 0.003
-      ),
-    }));
-
-    const connections = [];
-    for (let i = 0; i < nodeCount; i++) {
-      for (let j = i + 1; j < nodeCount; j++) {
-        const dist = nodes[i].pos.distanceTo(nodes[j].pos);
-        if (dist < 3.2) {
-          connections.push([i, j, dist]);
-        }
-      }
-    }
-    return { nodes, connections };
-  }, []);
-
-  const positionsArray = useMemo(
-    () => new Float32Array(nodes.length * 3),
-    [nodes]
-  );
-  const linePositions = useMemo(
-    () => new Float32Array(connections.length * 6),
-    [connections]
-  );
-
-  useFrame(() => {
-    nodes.forEach((node, i) => {
-      node.pos.x += node.vel.x;
-      node.pos.y += node.vel.y;
-      node.pos.z += node.vel.z;
-      if (Math.abs(node.pos.x) > 6) node.vel.x *= -1;
-      if (Math.abs(node.pos.y) > 4) node.vel.y *= -1;
-      if (Math.abs(node.pos.z) > 3) node.vel.z *= -1;
-      positionsArray[i * 3] = node.pos.x;
-      positionsArray[i * 3 + 1] = node.pos.y;
-      positionsArray[i * 3 + 2] = node.pos.z;
-    });
-
-    connections.forEach(([a, b], i) => {
-      linePositions[i * 6 + 0] = nodes[a].pos.x;
-      linePositions[i * 6 + 1] = nodes[a].pos.y;
-      linePositions[i * 6 + 2] = nodes[a].pos.z;
-      linePositions[i * 6 + 3] = nodes[b].pos.x;
-      linePositions[i * 6 + 4] = nodes[b].pos.y;
-      linePositions[i * 6 + 5] = nodes[b].pos.z;
-    });
-
-    if (groupRef.current?.geometry?.attributes?.position) {
-      groupRef.current.geometry.attributes.position.array = positionsArray.slice();
-      groupRef.current.geometry.attributes.position.needsUpdate = true;
-    }
-    if (linesRef.current?.geometry?.attributes?.position) {
-      linesRef.current.geometry.attributes.position.array = linePositions.slice();
-      linesRef.current.geometry.attributes.position.needsUpdate = true;
-    }
-  });
-
-  return (
-    <group>
-      {/* Node points */}
-      <points ref={groupRef}>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            count={nodes.length}
-            array={positionsArray}
-            itemSize={3}
-          />
-        </bufferGeometry>
-        <pointsMaterial
-          size={0.06}
-          color="#818cf8"
-          transparent
-          opacity={0.8}
-          sizeAttenuation
-        />
-      </points>
-
-      {/* Connection lines */}
-      <lineSegments ref={linesRef}>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            count={connections.length * 2}
-            array={linePositions}
-            itemSize={3}
-          />
-        </bufferGeometry>
-        <lineBasicMaterial
-          color="#6366f1"
-          transparent
-          opacity={0.15}
-          linewidth={1}
-        />
-      </lineSegments>
-    </group>
-  );
-}
-
-/* ─── Outer Particle Field ─── */
 function ParticleField() {
   const ref = useRef();
-  const positions = useMemo(() => {
-    const pos = new Float32Array(2000 * 3);
-    for (let i = 0; i < 2000; i++) {
-      pos[i * 3]     = (Math.random() - 0.5) * 20;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 14;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 10 - 3;
+  const matRef = useRef();
+
+  const { positions, colors } = useMemo(() => {
+    const count = 1600;
+    const pos = new Float32Array(count * 3);
+    const col = new Float32Array(count * 3);
+    const palette = [
+      new THREE.Color("#818cf8"),
+      new THREE.Color("#a78bfa"),
+      new THREE.Color("#22d3ee"),
+      new THREE.Color("#6366f1"),
+    ];
+
+    for (let i = 0; i < count; i++) {
+      const r = 4.5 + Math.random() * 4.5;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      pos[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
+      pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+      pos[i * 3 + 2] = r * Math.cos(phi) - 1.5;
     }
-    return pos;
+    for (let i = 0; i < count; i++) {
+      const c = palette[(Math.random() * palette.length) | 0];
+      col[i * 3]     = c.r;
+      col[i * 3 + 1] = c.g;
+      col[i * 3 + 2] = c.b;
+    }
+    return { positions: pos, colors: col };
   }, []);
 
   useFrame((state) => {
-    if (ref.current) {
-      ref.current.rotation.y = state.clock.getElapsedTime() * 0.015;
+    if (!ref.current) return;
+    const t = state.clock.getElapsedTime();
+    ref.current.rotation.y = t * 0.03;
+    ref.current.rotation.x = Math.sin(t * 0.06) * 0.08;
+    if (matRef.current) {
+      matRef.current.size = 0.05 + Math.sin(t * 1.4) * 0.01;
     }
   });
 
   return (
-    <Points ref={ref} positions={positions} stride={3} frustumCulled={false}>
+    <Points ref={ref} positions={positions} colors={colors} stride={3} frustumCulled={false}>
       <PointMaterial
-        transparent color="#a78bfa" size={0.025}
-        sizeAttenuation depthWrite={false} opacity={0.45}
+        ref={matRef}
+        transparent
+        vertexColors
+        size={0.05}
+        sizeAttenuation
+        depthWrite={false}
+        opacity={0.7}
       />
     </Points>
   );
@@ -155,31 +69,33 @@ function ParticleField() {
 
 /* ─── Floating Icosahedron ─── */
 function FloatingIco() {
-  const meshRef = useRef();
+  const spinRef = useRef();
   useFrame((state) => {
-    if (!meshRef.current) return;
+    if (!spinRef.current) return;
     const elapsed = state.clock.getElapsedTime();
-    meshRef.current.rotation.x = elapsed * 0.2;
-    meshRef.current.rotation.y = elapsed * 0.3;
-    meshRef.current.position.y = Math.sin(elapsed * 0.7) * 0.3;
+    spinRef.current.rotation.y = elapsed * 0.35;
   });
   return (
-    <Float speed={1.5} floatIntensity={0.4}>
+    <Float speed={1.2} floatIntensity={0.5} rotationIntensity={0}>
       <group position={[3.5, 0.5, -1]}>
-        {/* Wire frame */}
-        <Icosahedron ref={meshRef} args={[1.2, 0]} scale={1}>
-          <meshStandardMaterial
-            color="#8b5cf6" wireframe transparent opacity={0.5}
-            roughness={0.1} metalness={0.9}
-          />
-        </Icosahedron>
-        {/* Solid inner */}
-        <Icosahedron args={[1.0, 0]} scale={1}>
-          <meshStandardMaterial
-            color="#6366f1" transparent opacity={0.08}
-            roughness={0} metalness={1}
-          />
-        </Icosahedron>
+        <group ref={spinRef} rotation={[0.45, 0, 0.15]}>
+          {/* Wire frame */}
+          <Icosahedron args={[1.2, 0]} scale={1}>
+            <meshStandardMaterial
+              color="#a78bfa" wireframe transparent opacity={0.85}
+              roughness={0.1} metalness={0.6} emissive="#7c3aed" emissiveIntensity={0.55}
+            />
+          </Icosahedron>
+          {/* Solid inner */}
+          <Icosahedron args={[1.0, 0]} scale={1}>
+            <meshStandardMaterial
+              color="#6366f1" transparent opacity={0.18}
+              roughness={0} metalness={0.8} emissive="#6366f1" emissiveIntensity={0.45}
+            />
+          </Icosahedron>
+        </group>
+        {/* Glow halo — stays fixed while the shape spins */}
+        <pointLight color="#8b5cf6" intensity={3} distance={6} />
       </group>
     </Float>
   );
@@ -226,7 +142,6 @@ function HeroScene({ mouseX, mouseY }) {
       <pointLight position={[0, 8, -4]}  intensity={0.8} color="#a78bfa" />
 
       <CameraRig mouseX={mouseX} mouseY={mouseY} />
-      <NeuralNetwork />
       <ParticleField />
       <FloatingIco />
       <OrbitRing />
@@ -310,7 +225,8 @@ export default function Hero() {
       <div className="absolute inset-0 pointer-events-none">
         <Canvas
           camera={{ position: [0, 0, 7], fov: 52 }}
-          gl={{ antialias: true, alpha: true }}
+          dpr={[1, 1.5]}
+          gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
           className="h-full w-full"
         >
           <Suspense fallback={null}>
@@ -402,8 +318,9 @@ export default function Hero() {
               onClick={() => scrollTo("#contact")}
               className="flex items-center gap-2 rounded-xl border px-7 py-3.5 text-sm font-semibold backdrop-blur-sm transition-all"
               style={{
-                borderColor: 'var(--border)',
-                background: 'rgba(255,255,255,0.04)',
+                borderColor: 'var(--btn-border)',
+                background: 'var(--btn-bg)',
+                boxShadow: 'var(--btn-shadow)',
                 color: 'var(--text-primary)'
               }}
             >

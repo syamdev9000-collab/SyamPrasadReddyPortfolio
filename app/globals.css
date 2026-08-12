@@ -10,12 +10,21 @@
 :root {
   /* core */
   --bg-primary:   #030308;
-  --bg-secondary: #060610;
-  --bg-alt:       #08081a;
+  --bg-secondary: #070714;
+  --bg-alt:       #0a0a1e;
+  --bg-feature:   #0d0d26;
   --bg-card:      rgba(12, 12, 28, 0.7);
   --bg-card-hover:rgba(16, 16, 36, 0.85);
   --border:       rgba(255, 255, 255, 0.07);
   --border-hover: rgba(99, 102, 241, 0.4);
+
+  /* track (skill bars etc) */
+  --track: rgba(255, 255, 255, 0.06);
+
+  /* secondary button */
+  --btn-bg: rgba(255, 255, 255, 0.05);
+  --btn-border: rgba(255, 255, 255, 0.18);
+  --btn-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 
   /* text */
   --text-primary:   #e8e8f4;
@@ -27,6 +36,9 @@
   --accent-2: #8b5cf6;   /* violet */
   --accent-3: #06b6d4;   /* cyan */
   --accent-4: #a855f7;   /* purple */
+
+  /* nav */
+  --nav-bg: linear-gradient(180deg, rgba(8, 8, 24, 0.9), rgba(3, 3, 8, 0.72));
 
   /* gradients */
   --grad-text:    linear-gradient(135deg, #818cf8 0%, #a78bfa 45%, #22d3ee 100%);
@@ -44,17 +56,29 @@
    LIGHT THEME TOKENS
 ────────────────────────────────────────────────────── */
 .light {
-  --bg-primary:   #f7f7fd;
-  --bg-secondary: #f0f0fa;
-  --bg-alt:       #ebebf8;
+  --bg-primary:   #fafaff;
+  --bg-secondary: #f2f2fb;
+  --bg-alt:       #e9e9f7;
+  --bg-feature:   #eff1fe;
   --bg-card:      rgba(255, 255, 255, 0.92);
   --bg-card-hover:rgba(255, 255, 255, 1);
   --border:       rgba(0, 0, 0, 0.07);
   --border-hover: rgba(99, 102, 241, 0.4);
 
+  /* track */
+  --track: rgba(0, 0, 0, 0.07);
+
+  /* secondary button */
+  --btn-bg: rgba(255, 255, 255, 0.92);
+  --btn-border: rgba(79, 70, 229, 0.35);
+  --btn-shadow: 0 4px 16px rgba(99, 102, 241, 0.15);
+
   --text-primary:   #0f0f1a;
   --text-secondary: #4a4a5e;
   --text-muted:     #8888a0;
+
+  /* nav */
+  --nav-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(243, 243, 251, 0.88));
 
   --grad-text:  linear-gradient(135deg, #4f46e5 0%, #7c3aed 45%, #0891b2 100%);
 
@@ -343,6 +367,11 @@ body {
 .light .text-white      { color: #0f0f1a !important; }
 .light .text-white\/80  { color: #1a1a2e !important; }
 .light .text-white\/90  { color: #0d0d1f !important; }
+
+/* keep white text on solid brand-colored buttons in light mode */
+.light .bg-indigo-600.text-white { color: #ffffff !important; }
+.light .bg-indigo-500.text-white { color: #ffffff !important; }
+.light .bg-gradient-to-br.text-white { color: #ffffff !important; }
 
 /* Input fields light */
 .light input, .light textarea {

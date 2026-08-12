@@ -44,7 +44,7 @@ export default function Achievements() {
                 <span className="text-3xl">{item.icon}</span>
                 <span
                   className="rounded-md px-2 py-1 font-mono text-[10px]"
-                  style={{ background: "rgba(255,255,255,0.04)", color: "var(--text-muted)" }}
+                  style={{ background: "var(--track)", color: "var(--text-muted)" }}
                 >
                   {item.year}
                 </span>

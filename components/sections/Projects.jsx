@@ -79,7 +79,7 @@ function ProjectCard({ project, index, featured = false }) {
             style={{ perspective: 500 }}
           >
             <div
-              className="h-20 w-20 rounded-2xl opacity-25"
+              className="h-20 w-20 rounded-2xl opacity-45"
               style={{
                 background: `linear-gradient(135deg, ${project.accent}, transparent)`,
                 transform: "perspective(300px) rotateX(20deg) rotateY(-20deg)",
@@ -94,7 +94,7 @@ function ProjectCard({ project, index, featured = false }) {
             transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
           >
             <div
-              className="h-10 w-10 rounded-xl opacity-20"
+              className="h-10 w-10 rounded-xl opacity-35"
               style={{
                 background: `linear-gradient(135deg, transparent, ${project.accent})`,
                 transform: "perspective(300px) rotateX(-10deg) rotateY(25deg)",

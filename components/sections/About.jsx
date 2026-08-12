@@ -240,7 +240,7 @@ export default function About() {
                     <span className="text-xs" style={{ color: "var(--text-secondary)" }}>{label}</span>
                     <span className="font-mono text-xs" style={{ color: "var(--text-muted)" }}>{pct}%</span>
                   </div>
-                  <div className="h-[3px] w-full rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.05)" }}>
+                  <div className="h-[3px] w-full rounded-full overflow-hidden" style={{ background: "var(--track)" }}>
                     <motion.div
                       initial={{ width: 0 }}
                       animate={inView ? { width: `${pct}%` } : {}}

@@ -38,7 +38,7 @@ function SkillGlobe({ skillList }) {
           color="#6366f1"
           wireframe
           transparent
-          opacity={0.04}
+          opacity={0.1}
         />
       </Sphere>
       {/* Inner glow sphere */}
@@ -46,9 +46,11 @@ function SkillGlobe({ skillList }) {
         <meshStandardMaterial
           color="#8b5cf6"
           transparent
-          opacity={0.18}
+          opacity={0.3}
           roughness={0}
           metalness={0.9}
+          emissive="#8b5cf6"
+          emissiveIntensity={0.5}
         />
       </Sphere>
 
@@ -104,7 +106,7 @@ function SkillBar({ name, level, color, index }) {
           {level}%
         </span>
       </div>
-      <div className="h-[3px] w-full overflow-hidden rounded-full" style={{ background: "rgba(255,255,255,0.05)" }}>
+      <div className="h-[3px] w-full overflow-hidden rounded-full" style={{ background: "var(--track)" }}>
         <motion.div
           initial={{ width: 0 }}
           animate={inView ? { width: `${level}%` } : {}}

@@ -14,7 +14,7 @@ export default function Footer() {
       style={{ borderColor: "var(--border)", background: "var(--bg-primary)" }}
     >
       <div className="mx-auto max-w-7xl px-6 py-16">
-        <div className="flex flex-col items-center gap-10">
+        <div className="flex flex-col items-center gap-6">
           {/* Logo */}
           <div className="flex flex-col items-center gap-3">
             <div className="relative flex h-12 w-12 items-center justify-center">
@@ -27,7 +27,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
-               Reddy
+              Syam Reddy
             </p>
             <p className="text-xs" style={{ color: "var(--text-muted)" }}>Senior AI Engineer</p>
           </div>
@@ -76,7 +76,7 @@ export default function Footer() {
             style={{ color: "var(--text-muted)" }}
           >
             <p>© {new Date().getFullYear()}  Reddy. All rights reserved.</p>
-            <p className="hidden sm:block">Built with Next.js · Three.js · Framer Motion</p>
+            <p className="hidden sm:block">Designed and developed by Sam Dev using Next.js, React, Tailwind CSS, and Framer Motion.</p>
             <motion.button
               whileHover={{ scale: 1.1, y: -2 }}
               onClick={scrollTop}
