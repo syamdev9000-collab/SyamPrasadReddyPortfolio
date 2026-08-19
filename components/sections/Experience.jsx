@@ -116,12 +116,6 @@ function TimelineItem({ item, index, total }) {
       <div className="order-2 md:order-none">
         {!isLeft ? <TimelineCard item={item} /> : <div className="hidden md:block" />}
       </div>
-
-      {!isLeft && (
-        <div className="order-3 col-span-full md:hidden">
-          <TimelineCard item={item} />
-        </div>
-      )}
     </motion.div>
   );
 }
